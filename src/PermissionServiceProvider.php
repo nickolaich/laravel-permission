@@ -9,7 +9,7 @@ use Spatie\Permission\Contracts\Permission as PermissionContract;
 
 class PermissionServiceProvider extends ServiceProvider
 {
-    public function boot(PermissionRegistrar $permissionLoader)
+    public function boot()
     {
         $this->publishes([
             __DIR__.'/../config/permission.php' => $this->app->configPath().'/permission.php',
@@ -32,7 +32,6 @@ class PermissionServiceProvider extends ServiceProvider
 
         $this->registerModelBindings();
 
-        $permissionLoader->registerPermissions();
     }
 
     public function register()
@@ -92,5 +91,9 @@ class PermissionServiceProvider extends ServiceProvider
                 return '<?php endif; ?>';
             });
         });
+    }
+
+    public function booted(PermissionRegistrar $permissionLoader){
+        $permissionLoader->registerPermissions();
     }
 }
